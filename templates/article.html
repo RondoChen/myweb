@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="article_content">
+<p align="left"
+   style="color:white;font-family: 'Microsoft Sans Serif';font-size: 20px;width: 100%;background-color:black;">日志</p>
+<div class="article_panel">
+    <div class="updown">
+        <div class="next_page"><a href="/article/{{ updown.next_id }}">{{ updown.next_title }}</a></div>
+        <div class="last_page"><a href="/article/{{ updown.last_id }}">{{ updown.last_title }}</a></div>
+    </div>
+    {% for blog in blogs %}
+    <div class="article_title">{{ blog.blog_title }}</div>
+    <div class="article_info">{{ blog.create_date }} | {% for tag in tags %}<a href="/blog/{{ tag.tag_name }}/">{{ tag.tag_name }}</a> {% endfor %}</div>
+    <div class="article_body">
+        {{ blog.content |safe}}
+    </div>
+    <div class="interact_time">阅读({{ blog.viewed_time }}) | 评论({{ blog.comment_time }})</div>
+    {% endfor %}
+    <div class="updown">
+        <div class="next_page"><a href="/article/{{ updown.next_id }}">{{ updown.next_title }}</a></div>
+        <div class="last_page"><a href="/article/{{ updown.last_id }}">{{ updown.last_title }}</a></div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    function  validate_required(field,alerttxt) {
+            with (field)
+            {
+                if (value==null||value=="")
+                {
+                    alert(alerttxt);return false
+                }
+                else {return true}
+            }
+        }
+
+        function  validate_form(thisform) {
+            with (thisform)
+            {
+                if (validate_required(content,"你好像还没写评论哦")==false)
+                {content.focus();return false}
+            }
+        }
+</script>
+<br>
+<br>
+<div class="comment_pannel">
+    <div class="send_comment">
+        <form action="{{ url_for('add_comment') }}" method="post" onsubmit="return validate_form(this)" >
+            <fieldset>
+                <input type="hidden" name="blog_id" value="{{ blog_id }}"/>
+                <p>昵称:<input type="text" name="author" id="author"/>联系方式:<input id="contact" cols="40" type="text" name="contact" placeholder="这个只有站长能看到"/></p>
+                <textarea id="content" name="content" rows="5" cols="75" placeholder="请写下你的评论"></textarea>
+             </fieldset>
+            <p>对所有人可见: <input type="radio" name="is_visible" checked="checked" value="1"/></p>
+            <p>只对站长可见: <input type="radio" name="is_visible" value="0"/></p>
+            <p><input type="submit" value="发送"/></p>
+        </form>
+    </div>
+    <br>
+    <br>
+
+    <div class="comment_list">
+        {% for comment in comments %}
+        <div class="comment_author">#{{ loop.revindex }}  {{ comment.author }}:</div>
+        <div class="comment_date">{{ comment.comment_create_date }}</div>
+        <br>
+        <div class="comment_content">{{ comment.comment_content|safe }}</div>
+        <p> </p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+
+<!--
+
+    <form name="comment" action="html_form_action.asp" method="get" >
+    First name:
+    <input type="text" name="firstname" />
+    <br />
+    Last name:
+    <input type="text" name="lastname" />
+    <input type="submit" value="Submit" />
+    </form>-->

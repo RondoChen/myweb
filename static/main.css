@@ -1,0 +1,270 @@
+*{
+    margin: 0px;
+}
+
+body {
+    background-color:black;
+    width: 1000px;
+    min-height: 1000px;
+    margin:0px auto;
+}
+.top {
+    margin:0px;
+    background-color: black;
+    width:100%;
+    height:150px;
+}
+.page-title {
+    background-color: grey;
+    background-image: url('logo.jpg');
+    width:430px;
+    height:100%;
+    color:white;
+    font-size:36px;
+}
+
+.index_content {
+    width:100%;
+    height: 625px;
+    margin-top:-20px;
+    background-image: url('background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:contain;
+    background-attachment: inherit;
+}
+
+
+/*@font-face {
+font-family: SignaritaZhaiRhianne;
+src: url('../Signarita Zhai Rhianne.ttf');
+}*/
+
+
+.bottom {
+    height: 50px;
+    width:100%;
+    margin: 0px;
+    background-color: black;
+    float: left;
+}
+
+.footer {
+    padding-top:30px;
+    padding-right:5px;
+    background-color: #222222;
+    font-size:5px;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    text-align: right;
+    color: #a0a0a0;
+}
+
+.nav-bar {
+    height: 20px;
+    width: 400px;
+    position: relative;
+    left: 600px;
+    top: -40px;
+}
+
+.nav-bar ul {
+    display:inline;
+    list-style-type: none;
+    font-family: Arial;
+    margin:0px;
+    padding:0px;
+    font-size:20px;
+    font-style: normal;
+    text-align: center;
+}
+
+.nav-bar li {
+    display:inline;
+    margin-left:50px;
+    text-align:center;
+}
+
+.nav-bar a:link,a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-bar a:active,a:hover {
+    color:#A5D6D9;
+}
+/*---------下面是blog页面部分----------*/
+.blog_content {
+    min-height: 800px;
+    width:100%;
+    color:white;
+}
+
+.side_bar {
+    width:20%;
+    min-height:800px;
+    /*background-color: grey;*/
+    float:left;
+    font-family: "Microsoft Sans Serif";
+
+}
+.blog_panel {
+    width: 80%;
+    min-height: 800px;
+    background-color: black;
+    float:left;
+
+}
+
+.blog_field {
+    background-color:black;
+    margin:30px;
+
+}
+
+
+.blog_title {
+    font-weight: 600;
+    margin-bottom:10px;
+    font-size: 1.1em;
+}
+.blog_title a:link,a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.blog_title a:active,a:hover {
+    color:#A5D6D9;
+}
+
+.blog_info {
+    font-size:0.7em;
+}
+.tags {
+    margin:10px;
+    min-height: 100px;
+
+}
+
+.summary {
+    margin:10px;
+    min-height: 100px;
+
+}
+
+
+/*---------上面是blog页面部分----------*/
+/*---------下面是article页面部分----------*/
+.article_content {
+    width: 100%;
+    min-height: 150px;
+    background-color: black;
+}
+.article_panel {
+    width: 70%;
+    min-height: 130px;
+    /*background-color: #3A7734;*/
+    font-family: "Microsoft Sans Serif";
+    color: white;
+    font-size: 15px;
+    padding-left:150px;
+    padding-right:150px;
+}
+
+.updown {
+    width:100%;
+    /*background-color: #86989B;*/
+    float: left;
+    font-size: 0.8em;
+    padding-bottom: 5px;
+}
+
+.last_page {
+    float: right;
+}
+
+.next_page {
+    float: left;
+}
+
+.article_title {
+    line-height: 32px;
+    font-size: x-large;
+    margin-top:34px;
+    margin-bottom: 10px;
+}
+
+.article_info {
+    font-size: smaller;
+    margin-bottom: 10px;
+}
+
+.interact_time {
+    font-size:smaller;
+    margin-top: 34px;
+    margin-bottom:10px;
+}
+
+.article_body {
+    min-height: 150px;
+}
+
+.comment_pannel {
+    width: 70%;
+    min-height: 200px;
+    font-family: "Microsoft Sans Serif";
+    color: white;
+    font-size: 12px;
+    padding-left:150px;
+    padding-right:150px;
+    float:left;
+}
+
+.send_comment{
+    font-size: 12px;
+}
+
+#content {
+    margin-left:28px;
+}
+#author {
+    margin-bottom:10px;
+    margin-top:10px;
+    margin-right:68px;
+    width:160px;
+}
+
+#contact {
+    width:180px;
+}
+
+.comment_list{
+    width: 100%;
+    padding:10px;
+    font-size: 13px;
+    /*border:dotted;*/
+    border-color: grey;
+    border-width: 1px;
+
+}
+.comment_author {
+    float:left;
+    padding-bottom: 5px;
+    font-size: 1em;
+}
+
+.comment_date {
+    float:right;
+    font-size:1em;
+}
+
+.comment_content {
+    /*line-height: 10px;*/
+    width:100%;
+    float:left;
+    padding-left:20px;
+    padding-bottom: 10px;
+    font-size:1em;
+    margin-bottom: 10px;
+}
+.
+/*---------上面是article页面部分----------*/
