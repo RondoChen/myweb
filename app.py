@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, url_for, redirect
+from flask import Flask, render_template, request, flash, url_for, redirect, send_file
 #from models import Blog,Tag
 import pymysql
 
@@ -31,7 +31,7 @@ def blog_list():
     cur.execute("SELECT count(id) from myweb.blog where is_visible = 1 ")
     all = cur.fetchall()[0][0]
 
-    cur.execute("select tag_name,count(tag_name) from myweb.tag where blog_id in (select id from myweb.blog where is_visible = 1) group by tag_name order by 2 desc")
+    cur.execute("select tag_name,count(tag_name) from myweb.tag where relate_id in (select id from myweb.blog where is_visible = 1) group by tag_name order by 2 desc")
     tags = [dict(tag_name=row[0],count=row[1]) for row in cur.fetchall()]
 
     cur.execute("select date_format(create_date, '%Y'),count(id) from myweb.blog group by 1 order by 2 desc")
@@ -46,7 +46,7 @@ def blog_list_tag(tag_r):
     ip=str(request.remote_addr)
     sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','/blog/%s/')"%(ip, tag_r)
     cur.execute(sql)
-    cur.execute("SELECT id,blog_title,viewed_time,comment_time,create_date from myweb.blog where is_visible = 1 and id in (select blog_id from myweb.tag where tag_name =(%s))order by create_date desc",(tag_r,))
+    cur.execute("SELECT id,blog_title,viewed_time,comment_time,create_date from myweb.blog where is_visible = 1 and id in (select relate_id from myweb.tag where tag_name =(%s))order by create_date desc",(tag_r,))
     blogs = [dict(blog_id=row[0], blog_title=row[1], create_date=row[4], viewedtime=row[2], commenttime=row[3]) for row
              in cur.fetchall()]
 
@@ -54,7 +54,7 @@ def blog_list_tag(tag_r):
     all = cur.fetchall()[0][0]
 
     cur.execute(
-        "select tag_name,count(tag_name) from myweb.tag where blog_id in (select id from myweb.blog where is_visible = 1) group by tag_name order by 2 desc")
+        "select tag_name,count(tag_name) from myweb.tag where relate_id in (select id from myweb.blog where is_visible = 1) group by tag_name order by 2 desc")
     tags = [dict(tag_name=row[0], count=row[1]) for row in cur.fetchall()]
 
     cur.execute("select date_format(create_date, '%Y'),count(id) from myweb.blog group by 1 order by 2 desc")
@@ -100,7 +100,7 @@ def article(blog_id, charset='utf-8'):
     else:
         updown=dict(next_id=arg[1][0], next_title=arg[1][1], last_id=arg[0][0], last_title=arg[0][1])
 
-    cur.execute('select tag_name from myweb.tag where blog_id = %s',blog_id)
+    cur.execute('select tag_name from myweb.tag where relate_id = %s',blog_id)
     tags=[dict(tag_name=row[0]) for row in cur.fetchall()]
 
     cur.execute('select content,create_date,author from myweb.comment where is_visible = 1 and belong_id = %s order by create_date desc',(blog_id))
@@ -131,6 +131,22 @@ def add_comment():
     if is_visible == 1:
         cur.execute('update myweb.blog set comment_time = comment_time + 1 where id=%s', blog_id)
     return redirect(url_for('article', blog_id=blog_id))
+
+@app.route('/album/')
+def album():
+    cur.execute("select tag_name,count(1) from myweb.tag where relate_id >= 300000 group by tag_name order by 2 desc")
+    tags = [dict(tag_name=row[0], tag_count=row[1]) for row in cur.fetchall()]
+
+    cur.execute("select id,album_title,viewed_time,comment_time from myweb.album where is_visible=1 order by create_date desc")
+    albums = [dict(id=row[0], album_title=row[1], viewed_time=row[2], comment_time=row[3]) for row in cur.fetchall()]
+    return render_template("album.html",tags=tags,albums=albums)
+
+@app.route('/img/album_cover/<album_id>.jpg')
+def get_album_cover(album_id):
+    cur.execute('select cover from myweb.album where id=%s',album_id)
+    cover=cur.fetchone()[0]
+    return send_file(cover)
+
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=80)

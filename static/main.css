@@ -9,7 +9,6 @@ body {
     margin:0px auto;
 }
 .top {
-    margin:0px;
     background-color: black;
     width:100%;
     height:150px;
@@ -43,10 +42,10 @@ src: url('../Signarita Zhai Rhianne.ttf');
 
 .bottom {
     height: 50px;
-    width:100%;
-    margin: 0px;
+    width:1000px;
     background-color: black;
     float: left;
+    position:absolute;
 }
 
 .footer {
@@ -266,5 +265,62 @@ src: url('../Signarita Zhai Rhianne.ttf');
     font-size:1em;
     margin-bottom: 10px;
 }
-.
 /*---------上面是article页面部分----------*/
+/*---------下面是album页面部分------------*/
+.album_page {
+    width:960px;
+    color:white;
+    font-family: "Microsoft Sans Serif";
+    background-color: black;
+    /*min-height: 600px;*/
+    padding:20px;
+}
+
+.album_tag {
+    width:940px;
+    border-width: 1px;
+    border-style: solid;
+    /*background-color: #86989B;*/
+    padding:10px;
+}
+.album_list {
+    width:940px;
+    padding:10px;
+    margin:0 auto;
+}
+
+.album_box {
+    /*width:420px;*/
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
+    /*background-color: #485F6E;*/
+    padding: 5px;
+    float:left;
+}
+.album_cover {
+    border:1px solid #cccccc;
+    padding:5px;
+    box-shadow: 0 0 5px #ccc;
+    border-radius: 5px;
+}
+
+.album_box img {
+    width:210px;
+    height: auto;
+}
+
+.album_tag li {
+    display: inline;
+    text-align: center;
+    line-height:150% ;
+}
+
+.album_tag a:link,a:visited {
+    text-decoration:none;
+    color: white;
+}
+
+.album_tag a:active,a:hover {
+    color: #A5D6D9;
+}
+/*---------上面是album页面部分------------*/
