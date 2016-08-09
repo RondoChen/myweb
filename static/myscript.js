@@ -28,14 +28,21 @@ function imgLocation(parent,content){
             BoxHeightArr[minIndex] = BoxHeightArr[minIndex] + ccontent[i].offsetHeight;
         }
     }
-    //document.getElementById("bottom").style.cssText = "top:" + minheight + mintop +ccontent[ccontent.length-1].offsetHeight +"px";
-    console.log(minheight+mintop+ccontent[ccontent.length-1].offsetHeight);
-    console.log(ccontent[ccontent.length-1].offsetHeight);
-    bottom_height=minheight+mintop+ccontent[ccontent.length-1].offsetHeight;
-    document.getElementById("bottom").style.top=bottom_height + "px";
-    // document.getElementsBy("bottom").style.position="absolute";
-    // document.getElementsByClassName("bottom").style.left="0 px";
-    // document.getElementsByClassName("bottom").style.cssText="top:"+minheight + mintop+"px";
+    if(cols < ccontent.length) {
+        //document.getElementById("bottom").style.cssText = "top:" + minheight + mintop +ccontent[ccontent.length-1].offsetHeight +"px";
+        console.log(minheight+mintop+ccontent[ccontent.length-1].offsetHeight);
+        console.log(ccontent[ccontent.length-1].offsetHeight);
+        bottom_height=minheight+mintop+ccontent[ccontent.length-1].offsetHeight + 200;
+        document.getElementById("bottom").style.top=bottom_height + "px";
+        // document.getElementsBy("bottom").style.position="absolute";
+        // document.getElementsByClassName("bottom").style.left="0 px";
+        // document.getElementsByClassName("bottom").style.cssText="top:"+minheight + mintop+"px";
+    }
+    else{
+        document.getElementById("bottom").style.bottom=5 + "px";
+    }
+    //这一段if的判断是为了控制页脚的位置,到现在改了这么多次之后,已经有点逻辑混乱了,有空再优化--0809
+
 }
 
 function getminheightLocation(BoxHeightArr,minHeight) {

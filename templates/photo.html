@@ -1,10 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+<div class="photo_pannel">
+    <div class="updown">
+        <div class="next_page"><a href="/album/{{ updown.next_id }}.html">{{ updown.next_title }}</a></div>
+        <div class="last_page"><a href="/album/{{ updown.last_id }}.html">{{ updown.last_title }}</a></div>
+    </div>
+    <div class="photo_list">
+        {% for photo in photos %}
+        <a target="_blank" href="/img/photo/{{ photo.id  }}.jpg"><img src="/img/photo/{{ photo.id }}.jpg"></a>
+        {% endfor %}
+    </div>
+    <div class="photo_desc" style="font-size: 7px">
+        {% for info in album_info %}
+        <br>
+        <p>{{ info.desc }}</p>
+        <br>
+        <HR style="filter: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#cccccc SIZE=1>
+        <br>
+        <p>{{ info.create_date }}</p>
+        {% endfor %}
+    </div>
+    <div class="photo_tag" style="font-size:5px;line-height: 130%">
+        <br>
+        <p>标签:</p>
+        {% for tag in tags %}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/album/{{ tag.tag_name }}/">#{{ tag.tag_name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% endfor %}
+    </div>
+    <br>
+    <div class="updown">
+        <div class="next_page"><a href="/album/{{ updown.next_id }}.html">{{ updown.next_title }}</a></div>
+        <div class="last_page"><a href="/album/{{ updown.last_id }}.html">{{ updown.last_title }}</a></div>
+    </div>
+    <script type="text/javascript">
+    function  validate_required(field,alerttxt) {
+            with (field)
+            {
+                if (value==null||value=="")
+                {
+                    alert(alerttxt);return false
+                }
+                else {return true}
+            }
+        }
 
-</body>
-</html>
+        function  validate_form(thisform) {
+            with (thisform)
+            {
+                if (validate_required(content,"你好像还没写评论哦")==false)
+                {content.focus();return false}
+            }
+        }
+</script>
+    <div class="photo_comment_pannel" id="comment_pannel">
+    <div class="send_comment">
+        <form action="{{ url_for('add_comment') }}" method="post" onsubmit="return validate_form(this)" >
+            <fieldset>
+                <input type="hidden" name="content_id" value="{{ album_id }}"/>
+                <p>昵称:<input type="text" name="author" id="author"/>联系方式:<input id="contact" cols="40" type="text" name="contact" placeholder="这个只有站长能看到"/></p>
+                <textarea id="content" name="content" rows="5" cols="75" placeholder="请写下你的评论"></textarea>
+             </fieldset>
+            <p>对所有人可见: <input type="radio" name="is_visible" checked="checked" value="1"/></p>
+            <p>只对站长可见: <input type="radio" name="is_visible" value="0"/></p>
+            <p><input type="submit" value="发送"/></p>
+        </form>
+    </div>
+    <br>
+    <br>
+
+    <div class="comment_list">
+        {% for comment in comments %}
+        <div class="comment_author">#{{ loop.revindex }}  {{ comment.author }}:</div>
+        <div class="comment_date">{{ comment.comment_create_date }}</div>
+        <br>
+        <div class="comment_content">{{ comment.comment_content | safe }}</div>
+        <p> </p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</div>
+<br>
+<br>
+<script type="text/javascript">
+    window.onload = function(){
+        bottom_height=document.getElementById("comment_pannel").offsetHeight + document.getElementById("comment_pannel").offsetTop
+        document.getElementById("bottom").style.top=bottom_height + "px";
+    }
+</script>
+
+{% endblock %}

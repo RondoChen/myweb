@@ -5,7 +5,7 @@
 body {
     background-color:black;
     width: 1000px;
-    min-height: 1000px;
+    /*min-height: 1000px;*/
     margin:0px auto;
 }
 .top {
@@ -155,12 +155,12 @@ src: url('../Signarita Zhai Rhianne.ttf');
 /*---------下面是article页面部分----------*/
 .article_content {
     width: 100%;
-    min-height: 150px;
+    /*min-height: 150px;*/
     background-color: black;
 }
 .article_panel {
     width: 70%;
-    min-height: 130px;
+    /*min-height: 130px;*/
     /*background-color: #3A7734;*/
     font-family: "Microsoft Sans Serif";
     color: white;
@@ -204,7 +204,7 @@ src: url('../Signarita Zhai Rhianne.ttf');
 }
 
 .article_body {
-    min-height: 150px;
+    /*min-height: 150px;*/
 }
 
 .comment_pannel {
@@ -298,10 +298,10 @@ src: url('../Signarita Zhai Rhianne.ttf');
     float:left;
 }
 .album_cover {
-    border:1px solid #cccccc;
+    /*border:1px solid #cccccc;*/
     padding:5px;
-    box-shadow: 0 0 5px #ccc;
-    border-radius: 5px;
+    /*box-shadow: 0 0 5px #ccc;*/
+    /*border-radius: 5px;*/
 }
 
 .album_box img {
@@ -324,3 +324,49 @@ src: url('../Signarita Zhai Rhianne.ttf');
     color: #A5D6D9;
 }
 /*---------上面是album页面部分------------*/
+/*---------下面是photo页面部分------------*/
+.photo_pannel {
+    width:720px;
+    margin:0px auto;
+    color:white;
+
+}
+.photo_list {
+    /*margin:0px auto;*/
+    /*width: 720px;*/
+}
+
+.photo_list img{
+    margin:5px auto;
+    width:720px;
+    height: auto;
+}
+
+.photo_desc {
+    font-size: smaller;
+    /*line-height: 120%;*/
+}
+
+.photo_tag a:link,a:visited {
+    text-decoration:none;
+    color: white;
+}
+
+.photo_tag a:active,a:hover {
+    color: #A5D6D9;
+}
+.updown a:link,a:visited{
+    text-decoration: none;
+    color:white;
+}
+.photo_comment_pannel {
+    width: 100%;
+    min-height: 200px;
+    font-family: "Microsoft Sans Serif";
+    color: white;
+    font-size: 12px;
+    /*padding-left:150px;*/
+    /*padding-right:150px;*/
+    float:left;
+}
+/*---------上面是photo页面部分------------*/
