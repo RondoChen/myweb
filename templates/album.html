@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="/static/myscript.js"></script>
+<div class="album_page">
+    <p align="left"
+   style="color:white;font-family: 'Microsoft Sans Serif';font-size: 18px;width: 100%;background-color:black;">相册</p>
+    <div class="album_tag">
+        <p>标签</p>
+        <ul>
+        {% for tag in tags %}
+        <li><a href="/album/{{ tag.tag_name }}/">#{{ tag.tag_name }}&nbsp;({{ tag.tag_count }})</a></li>&nbsp;&nbsp;&nbsp;
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="album_list" id="container">
+        {% for album in albums %}
+        <div class="album_box" >
+            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="http://127.0.0.1:5000/img/album_cover/{{ album.id }}.jpg"></a></div>
+<!--            <div class="album_interact">
+                {{ loop.index }}浏览({{ album.viewed_time }}) 评论({{ album.comment_time }})
+            </div>-->
+        </div>
+        {% endfor %}
+                {% for album in albums %}
+        <div class="album_box" >
+            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="http://127.0.0.1:5000/img/album_cover/{{ album.id }}.jpg"></a></div>
+<!--            <div class="album_interact">
+                {{ loop.index }}浏览({{ album.viewed_time }}) 评论({{ album.comment_time }})
+            </div>-->
+        </div>
+        {% endfor %}
+                {% for album in albums %}
+        <div class="album_box" >
+            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="http://127.0.0.1:5000/img/album_cover/{{ album.id }}.jpg"></a></div>
+<!--            <div class="album_interact">
+                {{ loop.index }}浏览({{ album.viewed_time }}) 评论({{ album.comment_time }})
+            </div>-->
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
