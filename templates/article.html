@@ -6,8 +6,8 @@
    style="color:white;font-family: 'Microsoft Sans Serif';font-size: 20px;width: 100%;background-color:black;">日志</p>
 <div class="article_panel">
     <div class="updown">
-        <div class="next_page"><a href="/article/{{ updown.next_id }}">◀{{ updown.next_title }}</a></div>
-        <div class="last_page"><a href="/article/{{ updown.last_id }}">{{ updown.last_title }}▶</a></div>
+        <div class="next_page"><a href="/article/{{ updown.next_id }}.html">◀{{ updown.next_title }}</a></div>
+        <div class="last_page"><a href="/article/{{ updown.last_id }}.html">{{ updown.last_title }}▶</a></div>
     </div>
     {% for blog in blogs %}
     <div class="article_title">{{ blog.blog_title }}</div>
@@ -18,8 +18,8 @@
     <div class="interact_time">阅读({{ blog.viewed_time }}) | 评论({{ blog.comment_time }})</div>
     {% endfor %}
     <div class="updown">
-        <div class="next_page"><a href="/article/{{ updown.next_id }}">{{ updown.next_title }}</a></div>
-        <div class="last_page"><a href="/article/{{ updown.last_id }}">{{ updown.last_title }}</a></div>
+        <div class="next_page"><a href="/article/{{ updown.next_id }}.html">{{ updown.next_title }}</a></div>
+        <div class="last_page"><a href="/article/{{ updown.last_id }}.html">{{ updown.last_title }}</a></div>
     </div>
 </div>
 

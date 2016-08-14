@@ -9,22 +9,22 @@ conn.autocommit(1)
 app = Flask(__name__)
 app.debug=True
 app.secret_key='this is a secrect key'
+
+def add_viewed_record(path):
+    ip=str(request.remote_addr)
+    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','%s')"%(ip,path)
+    cur.execute(sql)
+
 @app.route('/')
 def index():
     #向访问记录表中插入记录
-    #获取用户ip
-    ip=str(request.remote_addr)
-    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','index')"%(ip)
-    cur.execute(sql)
+    add_viewed_record('/')
     return render_template("index.html")
 
 @app.route('/blog/')
 def blog_list():
     #向访问记录表中插入记录
-    #获取用户ip
-    ip=str(request.remote_addr)
-    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','/blog/')"%(ip)
-    cur.execute(sql)
+    add_viewed_record('/blog/')
     cur.execute("SELECT id,blog_title,viewed_time,comment_time,create_date from myweb.blog where is_visible = 1 order by create_date desc")
     blogs = [dict(blog_id=row[0],blog_title=row[1],create_date=row[4],viewedtime=row[2],commenttime=row[3]) for row in cur.fetchall()]
 
@@ -42,10 +42,7 @@ def blog_list():
 @app.route('/blog/<tag_r>/')
 def blog_list_tag(tag_r):
     #向访问记录表中插入记录
-    #获取用户ip
-    ip=str(request.remote_addr)
-    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','/blog/%s/')"%(ip, tag_r)
-    cur.execute(sql)
+    add_viewed_record('/blog/' + tag_r + '/')
     cur.execute("SELECT id,blog_title,viewed_time,comment_time,create_date from myweb.blog where is_visible = 1 and id in (select relate_id from myweb.tag where tag_name =(%s))order by create_date desc",(tag_r,))
     blogs = [dict(blog_id=row[0], blog_title=row[1], create_date=row[4], viewedtime=row[2], commenttime=row[3]) for row
              in cur.fetchall()]
@@ -62,15 +59,12 @@ def blog_list_tag(tag_r):
 
     return render_template("blog.html", blogs=blogs, tags=tags, all=all, summarys=summarys)
 
-@app.route('/article/<blog_id>')
+@app.route('/article/<blog_id>.html')
 def article(blog_id, charset='utf-8'):
     # 博文的阅读次数加一
     cur.execute('update myweb.blog set viewed_time=viewed_time + 1 where id = %s',(blog_id))
     #向访问记录表中插入记录
-    #获取用户ip
-    ip=str(request.remote_addr)
-    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','/article/%s')"%(ip, blog_id)
-    cur.execute(sql)
+    add_viewed_record('/article/' + blog_id +'.html')
     #获取文章信息
     cur.execute("select blog_title,viewed_time,comment_time,create_date,content from myweb.blog where id=%s",(blog_id,))
     blogs = [dict(blog_title=row[0], viewed_time=row[1], comment_time=row[2], create_date=row[3], content=row[4]) for row
@@ -109,6 +103,7 @@ def article(blog_id, charset='utf-8'):
 
 @app.route('/add', methods=['POST','GET'])
 def add_comment():
+    ip=str(request.remote_addr)
     if request.form['is_visible'] is '1':
         is_visible=1
     else:
@@ -128,8 +123,8 @@ def add_comment():
         author='游客'
 
     cur.execute(
-        'INSERT INTO myweb.comment (belong_id,content,author,contact,is_visible) VALUES (%s, %s, %s, %s, %s)',
-        [content_id, content, author, contact, int(is_visible)])
+        'INSERT INTO myweb.comment (belong_id,content,author,contact,is_visible,author_ip) VALUES (%s, %s, %s, %s, %s, %s)',
+        [content_id, content, author, contact, int(is_visible), ip])
     flash('评论已保存')
     if is_visible == 1:
         if int(content_id)<299999:
@@ -144,10 +139,7 @@ def add_comment():
 @app.route('/album/')
 def album_list():
     #向访问记录表中插入记录
-    #获取用户ip
-    ip=str(request.remote_addr)
-    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','/album/')"%(ip)
-    cur.execute(sql)
+    add_viewed_record('/album/')
     #获取标签
     cur.execute("select tag_name,count(1) from myweb.tag where relate_id >= 300000 group by tag_name order by 2 desc")
     tags = [dict(tag_name=row[0], tag_count=row[1]) for row in cur.fetchall()]
@@ -158,6 +150,8 @@ def album_list():
 
 @app.route('/album/<tag_r>/')
 def album_list_tag(tag_r):
+    #向访问记录表中插入记录
+    add_viewed_record('/album/'+tag_r+'/')
     cur.execute("select tag_name,count(1) from myweb.tag where relate_id >= 300000 group by tag_name order by 2 desc")
     tags = [dict(tag_name=row[0], tag_count=row[1]) for row in cur.fetchall()]
 
@@ -176,10 +170,7 @@ def album(album_id):
     # 相册的阅读次数加一
     cur.execute('update myweb.album set viewed_time=viewed_time + 1 where id = %s',(album_id))
     #向访问记录表中插入记录
-    #获取用户ip
-    ip=str(request.remote_addr)
-    sql="insert into myweb.viewed_record (ip_add,viewed_content) values ('%s','/album/%s.html')"%(ip, album_id)
-    cur.execute(sql)
+    add_viewed_record('/album/' + album_id + '.html')
 
     #下面是读取页面信息的操作
     cur.execute('select id from myweb.photo where is_visible=1 and belong_album=%s',album_id)
@@ -218,13 +209,21 @@ def album(album_id):
     return render_template("photo.html",photos=photos,album_info=album_info,tags=tags,updown=updown,album_id=album_id,comments=comments)
 
 @app.route('/img/photo/<photo_id>.jpg')
-def get_small_photo(photo_id):
+def get_origin_photo(photo_id):
     #相片的阅读数加一
     cur.execute('update myweb.photo set viewed_time=viewed_time + 1 where id = %s',(photo_id))
     #插入访问记录
-
+    #向访问记录表中插入记录
+    add_viewed_record('/img/photo/' + photo_id + '.jpg')
     #获取相片的路径
     cur.execute('select dir from myweb.photo where id=%s',photo_id)
+    dir=cur.fetchone()[0]
+    return send_file(dir)
+
+@app.route('/img/photo_s/<photo_id>.jpg')
+def get_small_photo(photo_id):
+    #获取相片的路径
+    cur.execute('select thumbnail from myweb.photo where id=%s',photo_id)
     dir=cur.fetchone()[0]
     return send_file(dir)
 

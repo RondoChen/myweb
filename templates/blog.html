@@ -25,7 +25,7 @@
         <p style = "margin:10px;"><a href="/blog/">所有日志({{ all }})</a></p>
         {% for blog in blogs %}
         <div class="blog_field">
-            <div class = "blog_title"><a href="/article/{{blog.blog_id}}">{{blog.blog_title}}</a></div>
+            <div class = "blog_title"><a href="/article/{{blog.blog_id}}.html">{{blog.blog_title}}</a></div>
             <div class = "blog_info">{{ blog.create_date }} 阅读{{ blog.viewedtime }} 评论{{ blog.commenttime }}</div>
         </div>
         {% endfor %}
