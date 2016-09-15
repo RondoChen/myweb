@@ -50,8 +50,8 @@
         <form action="{{ url_for('add_comment') }}" method="post" onsubmit="return validate_form(this)" >
             <fieldset>
                 <input type="hidden" name="content_id" value="{{ blog_id }}"/>
-                <p>昵称:<input type="text" name="author" id="author"/>联系方式:<input id="contact" cols="40" type="text" name="contact" placeholder="这个只有站长能看到"/></p>
-                <textarea id="content" name="content" rows="5" cols="75" placeholder="请写下你的评论"></textarea>
+                <p>昵称:<input type="text" name="author" id="author" placeholder="游客"/>联系方式:<input id="contact" cols="40" type="text" name="contact" placeholder="(选填)这个只有站长能看到"/></p>
+                <textarea id="content" name="content" rows="5" cols="75" placeholder="请写下你的评论,如需换行,输入<br>"></textarea>
              </fieldset>
             <p>对所有人可见: <input type="radio" name="is_visible" checked="checked" value="1"/></p>
             <p>只对站长可见: <input type="radio" name="is_visible" value="0"/></p>

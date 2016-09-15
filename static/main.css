@@ -52,7 +52,7 @@ src: url('../Signarita Zhai Rhianne.ttf');
     padding-top:30px;
     padding-right:5px;
     background-color: #222222;
-    font-size:5px;
+    font-size:13px;
     font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
     text-align: right;
     color: #a0a0a0;
@@ -111,6 +111,7 @@ src: url('../Signarita Zhai Rhianne.ttf');
     min-height: 800px;
     background-color: black;
     float:left;
+    font-family: "Microsoft Sans Serif";
 
 }
 
@@ -124,7 +125,7 @@ src: url('../Signarita Zhai Rhianne.ttf');
 .blog_title {
     font-weight: 600;
     margin-bottom:10px;
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 .blog_title a:link,a:visited {
     text-decoration: none;
@@ -136,12 +137,22 @@ src: url('../Signarita Zhai Rhianne.ttf');
 }
 
 .blog_info {
-    font-size:0.7em;
+    font-size:0.9em;
 }
 .tags {
     margin:10px;
     min-height: 100px;
 
+}
+
+
+.tags a:link,a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.tags a:active,a:hover {
+    color:#A5D6D9;
 }
 
 .summary {
@@ -265,6 +276,15 @@ src: url('../Signarita Zhai Rhianne.ttf');
     font-size:1em;
     margin-bottom: 10px;
 }
+.article_info a:link,a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.article_info a:active,a:hover {
+    color:#A5D6D9;
+}
+
 /*---------上面是article页面部分----------*/
 /*---------下面是album页面部分------------*/
 .album_page {
@@ -343,8 +363,15 @@ src: url('../Signarita Zhai Rhianne.ttf');
 }
 
 .photo_desc {
-    font-size: smaller;
-    /*line-height: 120%;*/
+    font-size:15px;
+    font-family: "Microsoft Sans Serif";
+}
+
+.photo_tag {
+    font-size:12px;
+    line-height: 130%;
+    font-family: "Microsoft Sans Serif";
+
 }
 
 .photo_tag a:link,a:visited {

@@ -10,7 +10,7 @@
         <a target="_blank" href="/img/photo/{{ photo.id  }}.jpg"><img src="/img/photo_s/{{ photo.id }}.jpg"></a>
         {% endfor %}
     </div>
-    <div class="photo_desc" style="font-size: 7px">
+    <div class="photo_desc">
         {% for info in album_info %}
         <br>
         <p>{{ info.desc }}</p>
@@ -20,7 +20,7 @@
         <p>{{ info.create_date }}</p>
         {% endfor %}
     </div>
-    <div class="photo_tag" style="font-size:5px;line-height: 130%">
+    <div class="photo_tag">
         <br>
         <p>标签:</p>
         {% for tag in tags %}

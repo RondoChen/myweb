@@ -15,28 +15,13 @@
     <div class="album_list" id="container">
         {% for album in albums %}
         <div class="album_box" >
-            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="http://127.0.0.1:5000/img/album_cover/{{ album.id }}.jpg"></a></div>
+            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="/img/album_cover/{{ album.id }}.jpg"></a></div>
 <!--            <div class="album_interact">
                 {{ loop.index }}浏览({{ album.viewed_time }}) 评论({{ album.comment_time }})
             </div>-->
         </div>
         {% endfor %}
-                {% for album in albums %}
-        <div class="album_box" >
-            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="http://127.0.0.1:5000/img/album_cover/{{ album.id }}.jpg"></a></div>
-<!--            <div class="album_interact">
-                {{ loop.index }}浏览({{ album.viewed_time }}) 评论({{ album.comment_time }})
-            </div>-->
-        </div>
-        {% endfor %}
-                {% for album in albums %}
-        <div class="album_box" >
-            <div class="album_cover"><a href="/album/{{ album.id }}.html"><img src="http://127.0.0.1:5000/img/album_cover/{{ album.id }}.jpg"></a></div>
-<!--            <div class="album_interact">
-                {{ loop.index }}浏览({{ album.viewed_time }}) 评论({{ album.comment_time }})
-            </div>-->
-        </div>
-        {% endfor %}
+
     </div>
 </div>
 
