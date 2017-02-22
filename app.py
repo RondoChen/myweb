@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, url_for, redirect, send_file
+from flask import Flask, render_template, request, flash, url_for, redirect, send_file, session
 #from models import Blog,Tag
 import pymysql
 
@@ -208,6 +208,8 @@ def album(album_id):
     comments = [dict(comment_content=row[0], comment_create_date=row[1], author=row[2]) for row in cur.fetchall()]
     return render_template("photo.html",photos=photos,album_info=album_info,tags=tags,updown=updown,album_id=album_id,comments=comments)
 
+
+# 获取原图,并且只有看原图才特地在访问记录表中留下记录
 @app.route('/img/photo/<photo_id>.jpg')
 def get_origin_photo(photo_id):
     #相片的阅读数加一
@@ -220,12 +222,48 @@ def get_origin_photo(photo_id):
     dir=cur.fetchone()[0]
     return send_file(dir)
 
+
+# 获取小图
 @app.route('/img/photo_s/<photo_id>.jpg')
 def get_small_photo(photo_id):
-    #获取相片的路径
+    # 获取相片的路径
     cur.execute('select thumbnail from photo where id=%s',photo_id)
-    dir=cur.fetchone()[0]
-    return send_file(dir)
+    s_dir = cur.fetchone()[0]
+    return send_file(s_dir)
+
+
+@app.route('/manage.html')
+def manage():
+    if session.get('username')=='admin' and session.get('password')=='admin':
+        return "hello, admin"
+    else:
+        return redirect(url_for('login'))
+    return "you are not logged in"
+
+
+@app.route('/login', methods=["POST","GET"])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin':
+            error = 'Invalid username'
+        elif request.form['password'] != 'admin':
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('manage'))
+    return render_template('login.html', error = error)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+
+
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=80)
