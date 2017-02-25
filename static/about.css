@@ -1,0 +1,52 @@
+/*---------下面是about页面部分------------*/
+.about {
+    width: 100%;
+    min-height: 600px;
+    color: white;
+    font-family: "Microsoft Sans Serif";
+    font-size: 12px;
+    background-color: black;
+}
+
+.info {
+    height:400px;
+    width:900px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    color:white;
+    font-size: 20px;
+    line-height: 140%;
+}
+
+.head_portrait {
+    width: 300px;
+    height:300px;
+    margin:50px;
+    float:left;
+}
+
+.information {
+    width:500px;
+    height: 300px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    float:left;
+}
+
+.info a:link,a:visited {
+    text-decoration:underline;
+    color: white;
+}
+
+.info a:active,a:hover {
+    color:#f5dd5d;
+}
+
+.desc {
+    width: 900px;
+    min-height:200px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+}

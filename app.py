@@ -12,7 +12,14 @@ app.secret_key='this is a secrect key'
 
 def add_viewed_record(path):
     ip=str(request.remote_addr)
-    sql="insert into viewed_record (ip_add,viewed_content) values ('%s','%s')"%(ip,path)
+    try:
+        _ip = str(request.headers["X-Real_IP"])
+        if _ip is not None:
+            ip = _ip
+    except:
+        pass
+    user_agent = request.headers.get('User-Agent')
+    sql="insert into viewed_record (ip_add,user_agent,viewed_content) values ('%s','%s','%s')"%(ip,user_agent,path)
     cur.execute(sql)
 
 @app.route('/')
@@ -263,6 +270,9 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/about.html')
+def about():
+    return render_template("about.html")
 
 
 if __name__ == '__main__':

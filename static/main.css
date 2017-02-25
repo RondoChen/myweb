@@ -1,7 +1,3 @@
-*{
-    margin: 0px;
-}
-
 body {
     background-color:black;
     width: 1000px;
@@ -14,7 +10,6 @@ body {
     height:150px;
 }
 .page-title {
-    background-color: grey;
     background-image: url('logo.jpg');
     width:430px;
     height:100%;
@@ -41,11 +36,12 @@ src: url('../Signarita Zhai Rhianne.ttf');
 
 
 .bottom {
+    margin-top: 10px;
     height: 50px;
     width:1000px;
     background-color: black;
-    float: left;
-    position:absolute;
+    /*float: left;*/
+    /*position:absolute;*/
 }
 
 .footer {
@@ -60,9 +56,9 @@ src: url('../Signarita Zhai Rhianne.ttf');
 
 .nav-bar {
     height: 20px;
-    width: 400px;
+    width: 500px;
     position: relative;
-    left: 600px;
+    left: 550px;
     top: -40px;
 }
 
@@ -85,11 +81,11 @@ src: url('../Signarita Zhai Rhianne.ttf');
 
 .nav-bar a:link,a:visited {
     text-decoration: none;
-    color: white;
+    color: #f5dd5d;
 }
 
 .nav-bar a:active,a:hover {
-    color:#A5D6D9;
+    color:#f5dd5d;
 }
 /*---------下面是blog页面部分----------*/
 .blog_content {
@@ -292,7 +288,7 @@ src: url('../Signarita Zhai Rhianne.ttf');
     color:white;
     font-family: "Microsoft Sans Serif";
     background-color: black;
-    /*min-height: 600px;*/
+    min-height: 2000px;
     padding:20px;
 }
 
@@ -347,6 +343,7 @@ src: url('../Signarita Zhai Rhianne.ttf');
 /*---------下面是photo页面部分------------*/
 .photo_pannel {
     width:720px;
+    min-height: 2000px;
     margin:0px auto;
     color:white;
 
