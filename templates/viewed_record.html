@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>viewed_record</title>
+</head>
+<body>
+    <p style="text-align:justify"><a href="{{ yesterday }}.html"> << {{ yesterday }}</a> &nbsp &nbsp {{ length }} &nbsp &nbsp  <a href="{{ tomorrow }}.html">{{ tomorrow }} >> </a></p>
+    <table border="1">
+    <tr>
+        <td>ip_add</td>
+        <td>ip_location</td>
+        <td>user_agent</td>
+        <td>viewed_content</td>
+        <td>create_date</td>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.ip_add }}</td>
+        <td>{{ record.ip_location }}</td>
+        <td>{{ record.user_agent }}</td>
+        <td>{{ record.viewed_content }}</td>
+        <td>{{ record.create_date }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>

@@ -38,10 +38,10 @@ def blog_list():
     cur.execute("SELECT count(id) from blog where is_visible = 1 ")
     all = cur.fetchall()[0][0]
 
-    cur.execute("select tag_name,count(tag_name) from tag where relate_id in (select id from blog where is_visible = 1) group by tag_name order by 2 desc")
+    cur.execute("select tag_name,count(tag_name) from tag where relate_id in (select id from blog where is_visible = 1)group by tag_name order by 2 desc")
     tags = [dict(tag_name=row[0],count=row[1]) for row in cur.fetchall()]
 
-    cur.execute("select date_format(create_date, '%Y'),count(id) from blog group by 1 order by 2 desc")
+    cur.execute("select date_format(create_date, '%Y'),count(id) from blog where is_visible = 1 group by 1 order by 2 desc")
     summarys=[dict(year=row[0],count=row[1]) for row in cur.fetchall()]
 
     return render_template("blog.html",blogs=blogs,tags=tags,all=all,summarys=summarys)
@@ -68,6 +68,10 @@ def blog_list_tag(tag_r):
 
 @app.route('/article/<blog_id>.html')
 def article(blog_id, charset='utf-8'):
+    cur.execute('select is_visible from blog where id = %s'%blog_id)
+    is_visible = cur.fetchall()[0][0]
+    if is_visible == 0:
+        return "<h1>404 Not Found<h1>"
     # 博文的阅读次数加一
     cur.execute('update blog set viewed_time=viewed_time + 1 where id = %s',(blog_id))
     #向访问记录表中插入记录
@@ -274,6 +278,20 @@ def logout():
 def about():
     return render_template("about.html")
 
+
+@app.route('/<day>.html')
+def viewed_record(day):
+    sql = "select ip_add,ip_location,user_agent,viewed_content,create_date from viewed_record where date_format( create_date, '%%Y%%m%%d' ) = '%s' order by create_date desc" %day
+    cur.execute(sql)
+    records = [dict(ip_add=row[0],ip_location=row[1],user_agent=row[2],viewed_content=row[3],create_date=row[4]) for row in cur.fetchall()]
+    sql = "select date_format(date_sub('%s',interval -1 day),'%%Y%%m%%d')"%day
+    cur.execute(sql)
+    tomorrow = cur.fetchall()[0][0]
+    sql = "select date_format(date_sub('%s',interval 1 day),'%%Y%%m%%d')"%day
+    cur.execute(sql)
+    yesterday= cur.fetchall()[0][0]
+    length = len(records)
+    return render_template("viewed_record.html", records=records,yesterday=yesterday,tomorrow=tomorrow, length=length)
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=80)

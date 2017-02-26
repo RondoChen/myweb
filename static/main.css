@@ -79,12 +79,14 @@ src: url('../Signarita Zhai Rhianne.ttf');
     text-align:center;
 }
 
-.nav-bar a:link,a:visited {
+.nav-bar a:link {
     text-decoration: none;
-    color: #f5dd5d;
 }
 
-.nav-bar a:active,a:hover {
+.nav-bar a:hover {
+    color: #5b80b2;
+}
+.nav-bar a:active {
     color:#f5dd5d;
 }
 /*---------下面是blog页面部分----------*/
