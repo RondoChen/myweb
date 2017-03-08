@@ -81,29 +81,32 @@ def article(blog_id, charset='utf-8'):
     blogs = [dict(blog_title=row[0], viewed_time=row[1], comment_time=row[2], create_date=row[3], content=row[4]) for row
              in cur.fetchall()]
 
-    cur.execute('select max(id) from blog where id in (select id from blog where is_visible=1)')
+    cur.execute('select id from blog where is_visible=1 and create_date in (select max(create_date) from blog)')
     max_id=cur.fetchall()[0][0]
-    cur.execute('select min(id) from blog where id in (select id from blog where is_visible=1)')
+    cur.execute('select id from blog where is_visible=1 and create_date in (select min(create_date) from blog)')
     min_id=cur.fetchall()[0][0]
-    sql = '''SELECT id,blog_title FROM blog WHERE
-        ID IN (SELECT
-                CASE
-                        WHEN SIGN(ID - %s) > 0 THEN MIN(ID)
-                        WHEN SIGN(ID - %s) < 0 THEN MAX(ID)
-                    END AS ID
-            FROM blog WHERE ID <> %s and is_visible = 1
-            GROUP BY SIGN(ID - %s)
-            ORDER BY SIGN(ID - %s))
-    ORDER BY ID ASC''' % (blog_id, blog_id, blog_id, blog_id, blog_id)
-    cur.execute(sql)
-    arg = cur.fetchall()
 
+    # 判断是否最新的blog
     if (int(blog_id) == int(max_id)) :
-        updown=dict(last_id=arg[0][0], last_title=arg[0][1], next_id=blog_id, next_title='没有了')
+        cur.execute("select id,blog_title from blog where is_visible=1 and create_date < (select create_date from blog where id = %s) order by create_date desc limit 1",(blog_id))
+
+        # cur.execute("select id,blog_title from blog where is_visible=1 and create_date > (select create_date from blog where id = %s) order by create_date limit 1",(blog_id))
+        arg_next = cur.fetchall()[0]
+        updown = dict(last_id=blog_id, last_title='没有了', next_id=arg_next[0], next_title=arg_next[1])
+        # updown=dict(last_id=arg_last[0], last_title=arg_last[1], next_id=blog_id, next_title='没有了')
+    # 判断是否最旧的blog
     elif (int(blog_id) == int(min_id)) :
-        updown=dict(last_id=blog_id, last_title='没有了', next_id=arg[0][0], next_title=arg[0][1])
+        cur.execute("select id,blog_title from blog where is_visible=1 and create_date > (select create_date from blog where id = %s) order by create_date limit 1",(blog_id))
+        arg_last = cur.fetchall()[0]
+        updown = dict(last_id=arg_last[0], last_title=arg_last[1], next_id=blog_id, next_title='没有了')
+        # updown=dict(last_id=blog_id, last_title='没有了', next_id=arg_next[0], next_title=arg_next[1])
+    # 不是最新也不是最旧
     else:
-        updown=dict(next_id=arg[1][0], next_title=arg[1][1], last_id=arg[0][0], last_title=arg[0][1])
+        cur.execute("select id,blog_title from blog where is_visible=1 and create_date < (select create_date from blog where id = %s) order by create_date DESC limit 1",(blog_id))
+        arg_next = cur.fetchall()[0]
+        cur.execute("select id,blog_title from blog where is_visible=1 and create_date > (select create_date from blog where id = %s) order by create_date limit 1",(blog_id))
+        arg_last = cur.fetchall()[0]
+        updown=dict(next_id=arg_next[0], next_title=arg_next[1], last_id=arg_last[0], last_title=arg_last[1])
 
     cur.execute('select tag_name from tag where relate_id = %s',blog_id)
     tags=[dict(tag_name=row[0]) for row in cur.fetchall()]
