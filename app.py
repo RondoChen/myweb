@@ -81,9 +81,9 @@ def article(blog_id, charset='utf-8'):
     blogs = [dict(blog_title=row[0], viewed_time=row[1], comment_time=row[2], create_date=row[3], content=row[4]) for row
              in cur.fetchall()]
 
-    cur.execute('select id from blog where is_visible=1 and create_date in (select max(create_date) from blog)')
+    cur.execute('select id from blog where create_date in (select max(create_date) from blog where is_visible=1)')
     max_id=cur.fetchall()[0][0]
-    cur.execute('select id from blog where is_visible=1 and create_date in (select min(create_date) from blog)')
+    cur.execute('select id from blog where create_date in (select min(create_date) from blog where is_visible=1)')
     min_id=cur.fetchall()[0][0]
 
     # 判断是否最新的blog
